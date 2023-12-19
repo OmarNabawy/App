@@ -43,7 +43,10 @@ def sequence_to_text(sequence, tokenizer):
     #return decrypted_text)
     
 def decrypt_text(model, input_text, tokenizer, max_length):
+    # Tokenize the input text
     input_seq = tokenizer.texts_to_sequences([input_text])
+    
+    # Pad the input sequence
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
     # Perform the prediction
@@ -56,6 +59,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     decrypted_text = tokenizer.sequences_to_texts([[index_of_max]])
 
     return decrypted_text[0]
+
 
 
 def main():
