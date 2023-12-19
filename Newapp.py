@@ -39,7 +39,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
         print("Error during reshaping:", e)
         print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
-    decrypted_text = tokenizer.sequences_to_texts([generated_sequence.argmax()])
+    decrypted_text = tokenizer.sequences_to_texts([[generated_sequence.argmax()]])
     return decrypted_text[0].strip()
 
 
