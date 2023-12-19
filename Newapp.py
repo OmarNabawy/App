@@ -10,7 +10,7 @@ def load_text_generation_model(model_path):
 
 def load_models():
     # Load the text generation model
-    text_generation_model = load_text_generation_model('deeper_lstm_model.h5')
+    text_generation_model = load_text_generation_model('LSTM_model.h5')
 
     # Load the tokenizer used during training
     tokenizer_path = 'plaintext_tokenizer.pkl'  # Use the appropriate tokenizer file
