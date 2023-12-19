@@ -46,28 +46,16 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
-    # Print the input sequence shape and text for debugging
-    print("Input Shape:", input_seq.shape)
-    print("Input Text:", input_text)
-
     # Perform the prediction
     generated_sequence = model.predict(input_seq)
-
-    # Print the shape of the generated sequence for debugging
-    print("Generated Sequence Shape:", generated_sequence.shape)
-    print("Generated Sequence:", generated_sequence)
 
     # Get the index of the maximum value in the generated sequence
     index_of_max = np.argmax(generated_sequence)
 
-    # Print the index of the maximum value for debugging
-    print("Index of Max Value:", index_of_max)
-
     # Convert the index to text using the tokenizer
-    decrypted_text = sequence_to_text([index_of_max], tokenizer)
+    decrypted_text = tokenizer.sequences_to_texts([[index_of_max]])
 
-    return decrypted_text
-
+    return decrypted_text[0]
 
 
 def main():
