@@ -59,9 +59,15 @@ def decrypt_text(model, input_text, tokenizer, max_length, temperature=1.0):
         print("Error during reshaping:", e)
         print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
+    # Add print statements
+    print("Generated Sequence Shape:", generated_sequence.shape)
+
     # Apply temperature to the generated sequence for sampling
     generated_sequence = np.log(generated_sequence) / temperature
     probabilities = np.exp(generated_sequence) / np.sum(np.exp(generated_sequence), axis=-1)
+
+    # Add print statements
+    print("Probabilities Shape:", probabilities.shape)
 
     # Sample from the distribution to get the index of the predicted character
     predicted_index = np.random.choice(len(probabilities), p=probabilities)
@@ -70,6 +76,7 @@ def decrypt_text(model, input_text, tokenizer, max_length, temperature=1.0):
     decrypted_text = sequence_to_text([predicted_index], tokenizer)
 
     return decrypted_text
+
 
 
 
