@@ -40,7 +40,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     Decrypt the generated sequence
     decrypted_text = sequence_to_text(generated_sequence.argmax(axis=-1)[0], tokenizer)
 
-    return decrypted_text)
+    return decrypted_text
     
 
 
