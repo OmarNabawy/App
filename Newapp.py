@@ -49,12 +49,8 @@ def decrypt_text(model, input_text, tokenizer, max_length, temperature=1.0):
     # Perform the prediction
     generated_sequence = model.predict(input_seq)
 
-    # Reshape the generated sequence to match the expected output
-    try:
-        generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
-    except ValueError as e:
-        print("Error during reshaping:", e)
-        print("Actual Generated Sequence Shape:", generated_sequence.shape)
+    # Ensure that generated_sequence is a 1D array
+    generated_sequence = np.squeeze(generated_sequence)
 
     # Apply temperature to the generated sequence for sampling
     generated_sequence = np.log(generated_sequence) / temperature
@@ -67,6 +63,7 @@ def decrypt_text(model, input_text, tokenizer, max_length, temperature=1.0):
     decrypted_text = sequence_to_text([predicted_index], tokenizer)
 
     return decrypted_text
+
 
 
 def main():
