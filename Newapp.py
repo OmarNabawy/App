@@ -41,10 +41,13 @@ def decrypt_text(model, input_text, tokenizer, max_length):
         print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
     # Apply temperature to the generated sequence for sampling
-    generated_sequence = np.log(generated_sequence) / 1.0
+    generated_sequence = np.log(generated_sequence + 1e-10) / 1.0
     
-    # Add a small constant to avoid division by zero
-    probabilities = np.exp(generated_sequence) / (np.sum(np.exp(generated_sequence), axis=-1) + 1e-10)
+    # Normalize the sequence to prevent overflow
+    generated_sequence = (generated_sequence - np.min(generated_sequence)) / (np.max(generated_sequence) - np.min(generated_sequence))
+    
+    # Apply exponential function
+    probabilities = np.exp(generated_sequence) / np.sum(np.exp(generated_sequence), axis=-1)
 
     # Sample from the distribution to get the index of the predicted character
     predicted_index = np.random.choice(len(probabilities), p=probabilities)
@@ -53,6 +56,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     decrypted_text = sequence_to_text([predicted_index], tokenizer)
 
     return decrypted_text
+
 
 
 def main():
