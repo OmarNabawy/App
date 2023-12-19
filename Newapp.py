@@ -31,6 +31,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     return decrypted_text[0].strip()
 
 def main():
+    max_length = 50 
     st.title("Text Decryption App")
 
     # Load the models
