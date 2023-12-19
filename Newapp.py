@@ -23,7 +23,26 @@ def sequence_to_text(sequence, tokenizer):
     text = tokenizer.sequences_to_texts([sequence])[0]
     return text.strip()
 
-def decrypt_text(model, input_text, tokenizer, max_length):
+#def decrypt_text(model, input_text, tokenizer, max_length):
+#    input_seq = tokenizer.texts_to_sequences([input_text])
+#    input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
+
+ #   # Perform the prediction
+ #   generated_sequence = model.predict(input_seq)
+
+  #  # Reshape the generated sequence to match the expected output
+  #  try:
+   #     generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
+   # except ValueError as e:
+    #    print("Error during reshaping:", e)
+     #   print("Actual Generated Sequence Shape:", generated_sequence.shape)
+
+    # #Decrypt the generated sequence
+    #decrypted_text = sequence_to_text(generated_sequence.argmax(axis=-1)[0], tokenizer)
+
+    #return decrypted_text
+    
+def decrypt_text(model, input_text, tokenizer, max_length, temperature=1.0):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
@@ -37,11 +56,17 @@ def decrypt_text(model, input_text, tokenizer, max_length):
         print("Error during reshaping:", e)
         print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
-    # Decrypt the generated sequence
-    decrypted_text = sequence_to_text(generated_sequence.argmax(axis=-1)[0], tokenizer)
+    # Apply temperature to the generated sequence for sampling
+    generated_sequence = np.log(generated_sequence) / temperature
+    probabilities = np.exp(generated_sequence) / np.sum(np.exp(generated_sequence), axis=-1)
+
+    # Sample from the distribution to get the index of the predicted character
+    predicted_index = np.random.choice(len(probabilities), p=probabilities)
+    
+    # Convert the index to text using the tokenizer
+    decrypted_text = sequence_to_text([predicted_index], tokenizer)
 
     return decrypted_text
-    
 
 
 def main():
