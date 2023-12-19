@@ -1,7 +1,6 @@
-
 import streamlit as st
 import numpy as np
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model
 import pickle
 import tensorflow as tf
@@ -22,9 +21,14 @@ max_length = 50
 def decrypt_text(model, input_text, tokenizer, max_length):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
+
+    # Print the input sequence shape for debugging
+    print("Input Shape:", input_seq.shape)
+
     generated_sequence = model.predict(input_seq)
     decrypted_text = tokenizer.sequences_to_texts(generated_sequence.argmax(axis=-1))
     return decrypted_text[0].strip()
+
 
 def main():
     st.title("Text Decryption App")
@@ -40,6 +44,9 @@ def main():
         # Display the decrypted text
         st.markdown("Decrypted Text:")
         st.text(decrypted_text)
+
+text_generation_model.summary()
+
 
 if __name__ == "__main__":
     main()
