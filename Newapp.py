@@ -25,9 +25,13 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     # Print the input sequence shape for debugging
     print("Input Shape:", input_seq.shape)
 
+    # Reshape the input sequence to match the model's input shape
+    input_seq = input_seq.reshape((1, input_seq.shape[1], 1))
+
     generated_sequence = model.predict(input_seq)
     decrypted_text = tokenizer.sequences_to_texts(generated_sequence.argmax(axis=-1))
     return decrypted_text[0].strip()
+
 
 
 def main():
