@@ -29,14 +29,19 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     # Perform the prediction
     generated_sequence = model.predict(input_seq)
 
-    # Reshape the generated sequence to match the expected output
-    generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
+    # Print the shape of the generated sequence for debugging
+    print("Generated Sequence Shape:", generated_sequence.shape)
 
-    # Print the shape of the reshaped generated sequence for debugging
-    print("Reshaped Generated Sequence Shape:", generated_sequence.shape)
+    # Reshape the generated sequence to match the expected output
+    try:
+        generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
+    except ValueError as e:
+        print("Error during reshaping:", e)
+        print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
     decrypted_text = tokenizer.sequences_to_texts([generated_sequence.argmax()])
     return decrypted_text[0].strip()
+
 
 
 def main():
