@@ -40,7 +40,7 @@ def decrypt_text(model, input_text, tokenizer, max_length):
 
 
 def main():
-    max_length = 50 
+    max_length = 40  # Set max_length to 40 to match the model's input shape
     st.title("Text Decryption App")
 
     # Load the models
