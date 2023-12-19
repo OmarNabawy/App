@@ -23,58 +23,25 @@ def sequence_to_text(sequence, tokenizer):
     text = tokenizer.sequences_to_texts([sequence])[0]
     return text.strip()
 
-#def decrypt_text(model, input_text, tokenizer, max_length):
-#    input_seq = tokenizer.texts_to_sequences([input_text])
- #   input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
-
-    # Perform the prediction
-  #  generated_sequence = model.predict(input_seq)
-
-    # Reshape the generated sequence to match the expected output
-   # try:
-    #    generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
-   # except ValueError as e:
-    #    print("Error during reshaping:", e)
-     #   print("Actual Generated Sequence Shape:", generated_sequence.shape)
-
-    # Decrypt the generated sequence
-    #decrypted_text = sequence_to_text(generated_sequence.argmax(axis=-1)[0], tokenizer)
-
-    #return decrypted_text)
-    
 def decrypt_text(model, input_text, tokenizer, max_length):
-    # Tokenize the input text
     input_seq = tokenizer.texts_to_sequences([input_text])
-    
-    # Pad the input sequence
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
-
-    # Print the input sequence shape and text for debugging
-    print("Input Shape:", input_seq.shape)
-    print("Input Text:", input_text)
 
     # Perform the prediction
     generated_sequence = model.predict(input_seq)
 
-    # Print the shape of the generated sequence for debugging
-    print("Generated Sequence Shape:", generated_sequence.shape)
-    print("Generated Sequence:", generated_sequence)
+    Reshape the generated sequence to match the expected output
+    try:
+        generated_sequence = generated_sequence.reshape((generated_sequence.shape[1],))
+    except ValueError as e:
+        print("Error during reshaping:", e)
+        print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
-    # Get the index of the maximum value in the generated sequence
-    index_of_max = np.argmax(generated_sequence)
+    Decrypt the generated sequence
+    decrypted_text = sequence_to_text(generated_sequence.argmax(axis=-1)[0], tokenizer)
 
-    # Print the index for debugging
-    print("Index of Max Value:", index_of_max)
-
-    # Convert the index to text using the tokenizer
-    decrypted_text = tokenizer.sequences_to_texts([[index_of_max]])
-
-    # Print the decrypted text for debugging
-    print("Decrypted Text:", decrypted_text)
-
-    return decrypted_text[0]
-
-
+    return decrypted_text)
+    
 
 
 def main():
