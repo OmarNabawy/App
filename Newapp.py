@@ -23,12 +23,21 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
+    # Print the input sequence shape for debugging
+    print("Input Shape:", input_seq.shape)
+
     # Reshape the input sequence to match the model's input shape
     input_seq = input_seq.reshape((1, input_seq.shape[1], 1))
 
+    # Perform the prediction
     generated_sequence = model.predict(input_seq)
+
+    # Print the shape of the generated sequence for debugging
+    print("Generated Sequence Shape:", generated_sequence.shape)
+
     decrypted_text = tokenizer.sequences_to_texts(generated_sequence.argmax(axis=-1))
     return decrypted_text[0].strip()
+
 
 def main():
     max_length = 50 
