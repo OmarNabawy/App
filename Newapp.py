@@ -42,7 +42,7 @@ def sequence_to_text(sequence, tokenizer):
 
     #return decrypted_text)
     
-    def decrypt_text(model, input_text, tokenizer, max_length):
+def decrypt_text(model, input_text, tokenizer, max_length):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
