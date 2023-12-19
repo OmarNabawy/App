@@ -80,7 +80,11 @@ def main():
 
         # Display the decrypted text
         st.subheader("Decrypted Text:")
-        st.text(decrypted_text)
+        if decrypted_text:
+            st.text(decrypted_text)
+        else:
+            st.text("Decryption failed or no text generated.")
+
 
 if __name__ == "__main__":
     main()
