@@ -23,14 +23,16 @@ def decrypt_text(model, input_text, tokenizer, max_length):
     input_seq = tokenizer.texts_to_sequences([input_text])
     input_seq = pad_sequences(input_seq, maxlen=max_length, padding="post", truncating="post")
 
-    # Print the input sequence shape for debugging
+    # Print the input sequence shape and text for debugging
     print("Input Shape:", input_seq.shape)
+    print("Input Text:", input_text)
 
     # Perform the prediction
     generated_sequence = model.predict(input_seq)
 
     # Print the shape of the generated sequence for debugging
     print("Generated Sequence Shape:", generated_sequence.shape)
+    print("Generated Sequence:", generated_sequence)
 
     # Reshape the generated sequence to match the expected output
     try:
@@ -39,9 +41,8 @@ def decrypt_text(model, input_text, tokenizer, max_length):
         print("Error during reshaping:", e)
         print("Actual Generated Sequence Shape:", generated_sequence.shape)
 
-    decrypted_text = tokenizer.sequences_to_texts([[generated_sequence.argmax()]])
+    decrypted_text = tokenizer.sequences_to_texts([generated_sequence.argmax()])
     return decrypted_text[0].strip()
-
 
 
 def main():
@@ -53,7 +54,8 @@ def main():
 
     # Print the model summary
     st.subheader("Model Summary:")
-    st.text(text_generation_model.summary())
+    st.text(str(text_generation_model.summary()))
+
 
     # Upload encrypted text and key through Streamlit
     encrypted_text = st.text_input("Enter the encrypted text:")
